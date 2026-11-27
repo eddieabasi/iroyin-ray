@@ -1,0 +1,24 @@
+{
+  "rule": [
+    {
+      "action": {
+        "type": "Delete"
+      },
+      "condition": {
+        "age": 3,
+        "matchesPrefix": [
+          "_tmp/",
+          "translations/v1/model=nllb-600m-smoke/split=train/_tmp/"
+        ]
+      }
+    },
+    {
+      "action": {
+        "type": "Delete"
+      },
+      "condition": {
+        "daysSinceNoncurrentTime": 30
+      }
+    }
+  ]
+}

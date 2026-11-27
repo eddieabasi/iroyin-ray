@@ -1,0 +1,8 @@
+{
+  "filename": "checkpoint.pt",
+  "bytes": 1056927566,
+  "sha256": "98177e990002fcd1a577816b33b9d9cf2c5170e9ed073874940e6045ef834c18",
+  "gcs": "gs://iroyin-ray-smoke-iroyin-ray/ray-results/gpt2-yo-smoke-10/checkpoint.pt",
+  "github_release": "smoke-2026-11-27",
+  "note": "GitHub rejects git blobs larger than 100 MB. The file is attached to this release and is still in the bucket above."
+}

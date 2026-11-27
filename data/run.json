@@ -1,0 +1,103 @@
+{
+  "project_id": "iroyin-ray-smoke",
+  "project_number": "628664303847",
+  "bucket": "gs://iroyin-ray-smoke-iroyin-ray",
+  "cluster_deleted": true,
+  "budget": "billingAccounts/01F24F-C8DF39-B9E9B1/budgets/5990f0da-0c1b-44e7-975a-71b17ea55627",
+  "successful_job": {
+    "rayjob": "iroyin-smoke",
+    "ray_cluster": "iroyin-smoke-p74fp",
+    "k8s_job": "iroyin-smoke-jprhb",
+    "started_at": "2026-11-27T12:07:22Z",
+    "ended_at": "2026-11-27T12:24:24Z",
+    "gpu": "NVIDIA L4",
+    "cuda": "12.1",
+    "node": "spot g2-standard-4",
+    "model_id": "facebook/nllb-200-distilled-600M",
+    "model_revision": "f8d333a098d19b4fd9a8b18f94170487ad3f821d",
+    "src_lang": "eng_Latn",
+    "tgt_lang": "yor_Latn",
+    "beam": 1,
+    "max_new_tokens": 256,
+    "input_sentences": 2000,
+    "output_rows": 2000,
+    "kept_rows": 1885,
+    "articles": 24,
+    "sentences_per_sec": 4.031844322582788,
+    "diacritic_word_rate_mean_kept": 0.7998206031015945,
+    "hard_fail_rate": 0.0575,
+    "mean_len_ratio": 1.1604,
+    "mean_char_len_en": 146.4,
+    "mean_char_len_yo": 164.9,
+    "nfc_changed_rows": 1243,
+    "qe_model": "skipped:load",
+    "qe_status": "skipped",
+    "qe_mean": null,
+    "fasttext_loaded": true,
+    "fasttext_top": {
+      "__label__yo": 1509,
+      "__label__ga": 243,
+      "__label__en": 44
+    },
+    "drop_combinations": [
+      {"n": 36, "reasons": ["len_ratio", "token_repeat", "trigram_repeat"]},
+      {"n": 34, "reasons": ["token_repeat", "trigram_repeat"]},
+      {"n": 21, "reasons": ["trigram_repeat"]},
+      {"n": 8, "reasons": ["len_ratio", "trigram_repeat"]},
+      {"n": 6, "reasons": ["len_ratio", "soft_eng_func", "trigram_repeat"]},
+      {"n": 3, "reasons": ["len_ratio"]},
+      {"n": 2, "reasons": ["no_letters"]},
+      {"n": 2, "reasons": ["token_repeat"]},
+      {"n": 1, "reasons": ["fasttext_en", "soft_copy", "soft_no_diacritic"]},
+      {"n": 1, "reasons": ["len_ratio", "soft_no_diacritic", "token_repeat", "trigram_repeat"]},
+      {"n": 1, "reasons": ["soft_eng_func", "trigram_repeat"]}
+    ],
+    "tokenizer": {
+      "vocab_size": 3659,
+      "requested": 32768,
+      "tokens_per_word": 1.7546,
+      "tokens_per_word_high": false,
+      "kept_lines": 1885,
+      "refit": false
+    },
+    "train": {
+      "steps": 5,
+      "losses": [8.3643, 7.495281, 7.456346, 7.107472, 6.942415],
+      "train_loss": 6.9424147605896,
+      "finite": true,
+      "grad_norm": 1.7412341833114624,
+      "wrapped_chunks": false,
+      "dtype": "fp32",
+      "lr": 0.0003
+    }
+  },
+  "artifacts": {
+    "parquet_sha256": "1eacdd9e562631c8be0d20460e415f8dd5778843c1cdb1a3b6f134a4a4147969",
+    "manifest_sha256": "a8f17b62a3f3073f8e95d7d8dbaa975207a5ca9cbef1191a3e92c4b4c4258340",
+    "sentencepiece_sha256": "36bf4176cd23f494c7cdfd7128024452c334362f86ae26c2f33dbe535de14996",
+    "checkpoint_sha256": "98177e990002fcd1a577816b33b9d9cf2c5170e9ed073874940e6045ef834c18",
+    "checkpoint_bytes": 1056927566,
+    "checkpoint_release": "smoke-2026-11-27"
+  },
+  "proofs": {
+    "logging": {
+      "event": "part_committed",
+      "pod": "iroyin-smoke-p74fp-head-n7s8z",
+      "timestamp": "2026-11-27T12:24:15.729976634Z"
+    },
+    "prometheus": {
+      "series": "prometheus.googleapis.com/ray_finished_jobs_total/counter",
+      "double_value": 8,
+      "interval_start": "2026-11-27T12:08:01.407Z",
+      "interval_end": "2026-11-27T12:25:01.407Z",
+      "custom_counter_visible": false
+    },
+    "trace": {
+      "trace_id": "a5104585a2a74e7cc43cce564d4e5158",
+      "span": "translate.partition",
+      "span_id": "12204425807765900306",
+      "latency_ms": 496050,
+      "chars": 292882
+    }
+  }
+}

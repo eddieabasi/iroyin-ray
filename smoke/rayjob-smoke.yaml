@@ -1,0 +1,114 @@
+apiVersion: ray.io/v1
+kind: RayJob
+metadata:
+  name: iroyin-smoke
+  namespace: iroyin
+spec:
+  shutdownAfterJobFinishes: true
+  activeDeadlineSeconds: 5400
+  ttlSecondsAfterFinished: 60
+  submissionMode: K8sJobMode
+  entrypoint: python -c "import smoke; smoke.main()"
+  rayClusterSpec:
+    rayVersion: "2.54.0"
+    headGroupSpec:
+      rayStartParams:
+        dashboard-host: "0.0.0.0"
+      template:
+        spec:
+          serviceAccountName: iroyin-ray
+          containers:
+            - name: ray-head
+              image: rayproject/ray:2.54.0-py311-gpu
+              env:
+                - name: PYTHONPATH
+                  value: /opt/iroyin
+                - name: PYTHONUNBUFFERED
+                  value: "1"
+                - name: GOOGLE_CLOUD_PROJECT
+                  value: iroyin-ray-smoke
+                - name: BUCKET
+                  value: iroyin-ray-smoke-iroyin-ray
+                - name: HF_HOME
+                  value: /tmp/hf
+                - name: HF_HUB_DISABLE_TELEMETRY
+                  value: "1"
+                - name: HF_HUB_DISABLE_PROGRESS_BARS
+                  value: "1"
+                - name: TOKENIZERS_PARALLELISM
+                  value: "false"
+                - name: RAY_LOGGING_CONFIG_ENCODING
+                  value: JSON
+                - name: RAY_BACKEND_LOG_JSON
+                  value: "1"
+              resources:
+                requests:
+                  cpu: "2"
+                  memory: 4Gi
+                limits:
+                  cpu: "2"
+                  memory: 4Gi
+              volumeMounts:
+                - name: smoke-code
+                  mountPath: /opt/iroyin
+                  readOnly: true
+          volumes:
+            - name: smoke-code
+              configMap:
+                name: iroyin-smoke
+    workerGroupSpecs:
+      - groupName: gpu
+        replicas: 1
+        minReplicas: 1
+        maxReplicas: 1
+        rayStartParams:
+          num-gpus: "1"
+          object-store-memory: "1073741824"
+        template:
+          spec:
+            serviceAccountName: iroyin-ray
+            nodeSelector:
+              cloud.google.com/compute-class: l4-spot
+            containers:
+              - name: ray-worker
+                image: rayproject/ray:2.54.0-py311-gpu
+                env:
+                  - name: PYTHONPATH
+                    value: /opt/iroyin
+                  - name: PYTHONUNBUFFERED
+                    value: "1"
+                  - name: GOOGLE_CLOUD_PROJECT
+                    value: iroyin-ray-smoke
+                  - name: BUCKET
+                    value: iroyin-ray-smoke-iroyin-ray
+                  - name: HF_HOME
+                    value: /tmp/hf
+                  - name: HF_HUB_DISABLE_TELEMETRY
+                    value: "1"
+                  - name: HF_HUB_DISABLE_PROGRESS_BARS
+                    value: "1"
+                  - name: TOKENIZERS_PARALLELISM
+                    value: "false"
+                  - name: RAY_LOGGING_CONFIG_ENCODING
+                    value: JSON
+                  - name: RAY_BACKEND_LOG_JSON
+                    value: "1"
+                resources:
+                  requests:
+                    cpu: "2"
+                    memory: 10Gi
+                    ephemeral-storage: 20Gi
+                    nvidia.com/gpu: "1"
+                  limits:
+                    cpu: "2"
+                    memory: 10Gi
+                    ephemeral-storage: 20Gi
+                    nvidia.com/gpu: "1"
+                volumeMounts:
+                  - name: smoke-code
+                    mountPath: /opt/iroyin
+                    readOnly: true
+            volumes:
+              - name: smoke-code
+                configMap:
+                  name: iroyin-smoke
